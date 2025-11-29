@@ -1,0 +1,14 @@
+# Archivos de Node
+/node_modules
+npm-debug.log
+.DS_Store
+
+# Archivos de React
+/frontend/build
+/frontend/dist
+/frontend/.vscode
+/frontend/.history
+
+# Archivos del Backend
+/backend/node_modules
+/backend/.env
