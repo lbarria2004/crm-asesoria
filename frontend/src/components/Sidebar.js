@@ -1,19 +1,21 @@
-// src/components/Sidebar.js
+// src/components/Sidebar.js (ACTUALIZADO)
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import LogoutButton from './LogoutButton'; // NUEVA IMPORTACIÓN
 
 function Sidebar() {
   return (
-    // CORRECCIÓN: 'Sidebar' a 'sidebar' para que coincida con App.css
-    <div className="sidebar"> 
+    <div className="sidebar">
       <nav className="sidebar-nav">
-        {/* NavLink se usa para añadir la clase 'active' automáticamente */}
+        {/* NavLinks existentes */}
         <NavLink to="/" end>Gestión de llamadas</NavLink>
         <NavLink to="/prospectos">Prospectos</NavLink>
         <NavLink to="/asesoria">Clientes en Asesoría</NavLink>
         <NavLink to="/pensionados">Pensionados</NavLink>
         <NavLink to="/estadisticas">Estadísticas</NavLink>
       </nav>
+      {/* Botón de Logout al final */}
+      <LogoutButton /> 
     </div>
   );
 }
