@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth"; // Importamos el servicio de Autenticac
 // --- TU OBJETO DE CONFIGURACIÓN DE FIREBASE ---
 const firebaseConfig = {
   // Asegúrate de que las 6 claves estén aquí
-  apiKey: "AIzaSyBGqHYXpk__2LPHQ-dAix3fGEpmYJvxi3g",
+  apiKey: "AIzaSyCo6TIG3WOMGsUh_QxKPrswhh6GglJ_zNw",
   authDomain: "asesoria-previsional.firebaseapp.com",
   projectId: "asesoria-previsional",
   storageBucket: "asesoria-previsional.firebasestorage.app",
