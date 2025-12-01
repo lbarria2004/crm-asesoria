@@ -1,21 +1,26 @@
-// src/pages/Login.js
+// src/pages/Login.js - VERSIÓN FINAL CON REDIRECCIÓN EXPLÍCITA
 import React, { useState } from 'react';
-import { auth } from '../firebase'; // Importamos el servicio de autenticación
+import { auth } from '../firebase'; 
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from 'react-router-dom'; // <--- ¡Importación Clave!
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate(); // <--- Hook para la navegación
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError(''); 
         try {
             await signInWithEmailAndPassword(auth, email, password);
-            // Éxito: el listener en App.js redirige automáticamente
+            
+            // ÉXITO: Forzamos la navegación a la ruta principal ("/")
+            navigate('/'); 
+
         } catch (error) {
-            // Manejo de errores comunes de Firebase
+            // Manejo de errores que sigue funcionando
             setError('Credenciales inválidas o usuario no encontrado.');
             console.error("Login Error:", error.code, error.message);
         }
