@@ -107,3 +107,31 @@ button:hover {
   color: white;
   border-radius: 4px;
 }
+/* --- ESTILOS DE LOGIN --- */
+.login-background {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #121212;
+}
+
+.login-form-box {
+  background-color: #1f1f1f;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  max-width: 350px;
+  width: 90%;
+  text-align: center;
+}
+
+.login-form-box input {
+  width: 90%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background-color: #282828;
+  border: 1px solid #3a3a3a;
+  color: white;
+  border-radius: 4px;
+}
