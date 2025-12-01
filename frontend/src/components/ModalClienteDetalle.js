@@ -1,7 +1,8 @@
-// src/components/ModalClienteDetalle.js
+// src/components/ModalClienteDetalle.js (VERSIÓN CON BORRADO)
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+// Importamos deleteDoc para la función de borrado
+import { doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore"; 
 
 function ModalClienteDetalle({ clienteId, onClose, onUpdate }) {
     const [cliente, setCliente] = useState(null);
@@ -22,7 +23,7 @@ function ModalClienteDetalle({ clienteId, onClose, onUpdate }) {
             if (docSnap.exists()) {
                 const data = docSnap.data();
                 setCliente(data);
-                setFormData(data); // Inicializa el formulario con los datos actuales
+                setFormData(data); 
             } else {
                 console.error("No se encontró el cliente con ID:", clienteId);
             }
@@ -40,18 +41,35 @@ function ModalClienteDetalle({ clienteId, onClose, onUpdate }) {
         e.preventDefault();
         try {
             const clienteRef = doc(db, "clientes", clienteId);
-            
-            // Actualiza solo los campos cambiados
             await updateDoc(clienteRef, formData); 
-            
             alert("Datos del cliente actualizados con éxito!");
-            onUpdate(); // Función para refrescar la lista si es necesario
+            onUpdate();
             onClose(); 
         } catch (error) {
             console.error("Error al actualizar:", error);
             alert("Hubo un error al guardar los cambios.");
         }
     };
+    
+    // --- FUNCIÓN DE BORRADO ---
+    const handleDelete = async () => {
+        const confirmDelete = window.confirm(`¿Estás seguro de que deseas ELIMINAR permanentemente a ${cliente.nombre} ${cliente.apellido}? Esta acción no se puede deshacer.`);
+        
+        if (!confirmDelete) return;
+
+        try {
+            const clienteRef = doc(db, "clientes", clienteId);
+            await deleteDoc(clienteRef); // EJECUTA EL BORRADO
+            
+            alert("Cliente eliminado con éxito.");
+            onUpdate(); // Refresca la lista de clientes (aunque onSnapshot ya lo hace)
+            onClose(); // Cierra el modal
+        } catch (error) {
+            console.error("Error al eliminar:", error);
+            alert("Hubo un error al intentar eliminar el cliente.");
+        }
+    };
+    // -------------------------
 
     if (loading) {
         return <div className="modal-background"><div className="modal-form">Cargando detalles...</div></div>;
@@ -65,7 +83,6 @@ function ModalClienteDetalle({ clienteId, onClose, onUpdate }) {
                 <h3 style={{color: '#00BCD4'}}>Detalles de {cliente.nombre} {cliente.apellido}</h3>
                 
                 {/* --- CAMPOS DE EDICIÓN --- */}
-                
                 <label>RUT:</label>
                 <input type="text" value={cliente.rut} disabled style={{opacity: 0.6}} /> 
                 
@@ -83,8 +100,20 @@ function ModalClienteDetalle({ clienteId, onClose, onUpdate }) {
                 <textarea name="detalleLlamadas" onChange={handleChange} value={formData.detalleLlamadas || ''} rows="3"></textarea>
                 
                 {/* --- BOTONES --- */}
-                <button type="submit">Guardar Cambios</button>
-                <button type="button" onClick={onClose} style={{backgroundColor: '#6c757d'}}>Cerrar</button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+                    <button type="submit">Guardar Cambios</button>
+                    
+                    {/* BOTÓN DE BORRADO: Llama a la nueva función handleDelete */}
+                    <button 
+                        type="button" 
+                        onClick={handleDelete} 
+                        style={{backgroundColor: '#dc3545', marginLeft: '10px'}} 
+                    >
+                        🗑️ Borrar Cliente
+                    </button>
+                    
+                    <button type="button" onClick={onClose} style={{backgroundColor: '#6c757d', marginLeft: '10px'}}>Cerrar</button>
+                </div>
             </form>
         </div>
     );
